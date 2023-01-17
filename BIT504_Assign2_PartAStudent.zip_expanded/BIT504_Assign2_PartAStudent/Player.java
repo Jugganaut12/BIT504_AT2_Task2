@@ -1,4 +1,4 @@
-/**
+/*
  * Enumeration for the players move
  */
 

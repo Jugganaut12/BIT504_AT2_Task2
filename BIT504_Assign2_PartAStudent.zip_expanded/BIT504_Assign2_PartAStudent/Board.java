@@ -16,15 +16,19 @@ public class Board {
 	public Board() {
 		
 	 //TODO: initialize the cells array using ROWS and COLS constants 
-		cells = new Cell[ROWS][COLS]; //allocate the array
-		for (int row = 0; row < GameMain.ROWS; ++row) {
-			for (int col = 0; col < GameMain.COLS; ++col) {
-				cells[row][col] = new Cell(row, col);
-			}
-		}
-		
+		initGame();
 	}
-
+		
+	public void initGame() {
+	      cells = new Cell[ROWS][COLS]; // allocate the array
+	      for (int row = 0; row < ROWS; ++row) {
+	         for (int col = 0; col < COLS; ++col) {
+	            // Allocate element of the array
+	            cells[row][col] = new Cell(row, col);
+	               // Cells are initialized in the constructor
+	         }
+	      }
+	   }
 
 	/** Return true if it is a draw (i.e., no more EMPTY cells) */ 
 	public boolean isDraw() {
