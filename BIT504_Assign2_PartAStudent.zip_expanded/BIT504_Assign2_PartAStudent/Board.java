@@ -1,13 +1,14 @@
 import java.awt.*;
 
 public class Board {
-	// grid line width
-	public static final int GRID_WIDTH = 8;
-	// grid line half width
-	public static final int GRID_WIDHT_HALF = GRID_WIDTH / 2;
-	/* Define named constants for the grid*/
-	public static final int ROWS = 3;
+	// Define named constants
+	   public static final int ROWS = 3;  // ROWS x COLS cells
 	   public static final int COLS = 3;
+	// Define named constants for drawing
+	public static final int GRID_WIDTH = 8;// grid line width
+	public static final int GRID_WIDTH_HALF = GRID_WIDTH / 2;// grid line half width
+	public static final int CANVAS_WIDTH = GameMain.CELL_SIZE * COLS;  // the drawing canvas
+	   public static final int CANVAS_HEIGHT = GameMain.CELL_SIZE * ROWS;
 	
 	//2D array of ROWS-by-COLS Cell instances
 	Cell [][] cells;
@@ -43,7 +44,7 @@ public class Board {
                }else {
             
          
-         return GameState.Draw != null; // no empty cell, it's a draw
+         return true; // no empty cell, it's a draw
       }
 	}
 
@@ -84,12 +85,12 @@ public class Board {
 		//draw the grid
 		g.setColor(Color.gray);
 		for (int row = 1; row < GameMain.ROWS; ++row) {          
-			g.fillRoundRect(0, GameMain.CELL_SIZE * row - GRID_WIDHT_HALF,                
+			g.fillRoundRect(0, GameMain.CELL_SIZE * row - GRID_WIDTH_HALF,                
 					GameMain.CANVAS_WIDTH - 1, GRID_WIDTH,                
 					GRID_WIDTH, GRID_WIDTH);       
 			}
 		for (int col = 1; col < GameMain.COLS; ++col) {          
-			g.fillRoundRect(GameMain.CELL_SIZE * col - GRID_WIDHT_HALF, 0,                
+			g.fillRoundRect(GameMain.CELL_SIZE * col - GRID_WIDTH_HALF, 0,                
 					GRID_WIDTH, GameMain.CANVAS_HEIGHT - 1,                
 					GRID_WIDTH, GRID_WIDTH);
 		}

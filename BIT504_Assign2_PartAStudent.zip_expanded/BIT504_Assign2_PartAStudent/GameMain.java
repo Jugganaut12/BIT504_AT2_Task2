@@ -145,17 +145,18 @@ public class GameMain extends JPanel implements MouseListener{
 	
 	  /** Initialise the game-board contents and the current status of GameState and Player) */
 		public void initGame() {
-			for (int row = 0; row < ROWS; ++row) {          
-				for (int col = 0; col < COLS; ++col) {  
-					// all cells empty
-					board.cells[row][col].content = Player.Empty;           
-				}
-			}
-			 currentState = GameState.Playing;
-			 currentPlayer = Player.Cross;
+			board = new Board();
 		}
 		
-		
+		public void newGame() {
+		      for (int row = 0; row < Board.ROWS; ++row) {
+		         for (int col = 0; col < Board.COLS; ++col) {
+		            board.cells[row][col].content = Player.Empty; // all cells empty
+		         }
+		      }
+		      currentPlayer = Player.Cross;    // cross plays first
+		      currentState = GameState.Playing;  // ready to play
+		   }
 		/**After each turn check to see if the current player hasWon by putting their symbol in that position, 
 		 * If they have the GameState is set to won for that player
 		 * If no winner then isDraw is called to see if deadlock, if not GameState stays as PLAYING
