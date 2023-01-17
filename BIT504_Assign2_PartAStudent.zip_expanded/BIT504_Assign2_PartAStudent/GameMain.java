@@ -90,7 +90,7 @@ public class GameMain extends JPanel implements MouseListener{
 		
 		
 		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-		
+		newGame();
 		
 		//TODO: call the method to initialise the game board
 		initGame();
@@ -128,8 +128,9 @@ public class GameMain extends JPanel implements MouseListener{
 		if (currentState == GameState.Playing) {          
 			statusBar.setForeground(Color.BLACK);          
 				//TODO: use the status bar to display the message "X"'s Turn
+			statusBar.setText((currentPlayer == Player.Cross)? "X's Turn" : "O's Turn");
 				//TODO: use the status bar to display the message "O"'s Turn
-				statusBar.setText((currentPlayer == Player.Cross) ? "X's Turn" : "O's Turn");    
+				statusBar.setText((currentPlayer == Player.Nought) ? "O's Turn" : "X's Turn");    
 			} else if (currentState == GameState.Draw) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("It's a Draw! Click to play again.");       
@@ -146,17 +147,19 @@ public class GameMain extends JPanel implements MouseListener{
 	  /** Initialise the game-board contents and the current status of GameState and Player) */
 		public void initGame() {
 			board = new Board();
+		      currentPlayer = Player.Cross;    // cross plays first
+		      currentState = GameState.Playing;  // ready to play
+		  
+		
 		}
 		
 		public void newGame() {
-		      for (int row = 0; row < Board.ROWS; ++row) {
-		         for (int col = 0; col < Board.COLS; ++col) {
-		            board.cells[row][col].content = Player.Empty; // all cells empty
-		         }
-		      }
-		      currentPlayer = Player.Cross;    // cross plays first
-		      currentState = GameState.Playing;  // ready to play
-		   }
+	      currentPlayer = Player.Cross;   // CROSS plays first
+	      currentState = GameState.Playing; // ready to play
+	   }
+		
+	               // Cells are initialized in the constructor
+	             
 		/**After each turn check to see if the current player hasWon by putting their symbol in that position, 
 		 * If they have the GameState is set to won for that player
 		 * If no winner then isDraw is called to see if deadlock, if not GameState stays as PLAYING
@@ -174,8 +177,7 @@ public class GameMain extends JPanel implements MouseListener{
 					
 				// TODO: set the currentstate to the draw gamestate
 					currentState = GameState.Draw;
-			}else {
-				currentState = GameState.Playing;
+			
 			}
 			//otherwise no change to current state of playing
 		}

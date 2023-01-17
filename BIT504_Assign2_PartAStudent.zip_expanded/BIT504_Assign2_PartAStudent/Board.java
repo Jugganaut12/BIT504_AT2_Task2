@@ -30,7 +30,13 @@ public class Board {
 	         }
 	      }
 	   }
-
+//	public void newGame() {
+//	      for (int row = 0; row < ROWS; ++row) {
+//	         for (int col = 0; col < COLS; ++col) {
+//	            cells[row][col].clear();  // The cells init itself
+//	         }
+//	      }
+//	   }
 	/** Return true if it is a draw (i.e., no more EMPTY cells) */ 
 	public boolean isDraw() {
 		 
@@ -38,18 +44,16 @@ public class Board {
 		// Hint: Use a nested loop (see the constructor for an example). Check whether any of the cells content in the board grid are Player.Empty. If they are, it is not a draw.
 		// Hint: Return false if it is not a draw, return true if there are no empty positions left
 		   
-		
-               if (cells[ROWS][COLS].content == Player.Empty) {
+		for (int row = 0; row < ROWS; ++row) {
+	         for (int col = 0; col < COLS; ++col) {
+               if (cells[row][col].content == Player.Empty) {
                   return false; // still have empty cells
-               }else {
-            
-         
-         return true; // no empty cell, it's a draw
-      }
-	}
+               }
+	         }
+		}
+		return true;
 
-		
-	
+	}
 	
 	/** Return true if the current player "thePlayer" has won after making their move  */
 	public boolean hasWon(Player thePlayer, int playerRow, int playerCol) {
