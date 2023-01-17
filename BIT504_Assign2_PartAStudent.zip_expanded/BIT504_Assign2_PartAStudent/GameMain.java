@@ -90,7 +90,7 @@ public class GameMain extends JPanel implements MouseListener{
 		
 		
 		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-
+		
 		
 		//TODO: call the method to initialise the game board
 		initGame();
@@ -167,13 +167,15 @@ public class GameMain extends JPanel implements MouseListener{
 			if(board.hasWon(thePlayer, row, col)) {
 				
 				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner
-
+				currentPlayer = (currentPlayer == Player.Cross)? Player.Nought : Player.Cross; 
 				
 			} else 
 				if (board.isDraw ()) {
 					
 				// TODO: set the currentstate to the draw gamestate
 					currentState = GameState.Draw;
+			}else {
+				currentState = GameState.Playing;
 			}
 			//otherwise no change to current state of playing
 		}
