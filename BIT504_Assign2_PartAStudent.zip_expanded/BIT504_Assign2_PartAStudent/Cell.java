@@ -19,7 +19,7 @@ public class Cell {
 		
 		
 		//TODO: call the method that sets the cell content to EMPTY
-		 this.content = Player.Empty;
+		 clear();
 	}
 	
 

@@ -16,9 +16,7 @@ public class Board {
 	public Board() {
 		
 	 //TODO: initialize the cells array using ROWS and COLS constants 
-		 initGame();
-	}
-		 private void initGame() {
+		cells = new Cell[ROWS][COLS]; //allocate the array
 		for (int row = 0; row < GameMain.ROWS; ++row) {
 			for (int col = 0; col < GameMain.COLS; ++col) {
 				cells[row][col] = new Cell(row, col);
@@ -56,7 +54,7 @@ public class Board {
 		
 		 // TODO: Check if the player has 3 in the playerCol.
 		 // Hint: Use the row code above as a starting point, remember that it goes cells[row][column] 
-		if(cells[playerCol][0].content == thePlayer && cells[playerCol][0].content == thePlayer && cells[playerCol][0].content == thePlayer )
+		if(cells[playerCol][0].content == thePlayer && cells[playerCol][1].content == thePlayer && cells[playerCol][2].content == thePlayer )
 			return true; 
 		
 		
