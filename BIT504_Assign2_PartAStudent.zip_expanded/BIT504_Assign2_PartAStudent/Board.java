@@ -1,13 +1,14 @@
 import java.awt.*;
 
 public class Board {
-	// grid line width
-	public static final int GRID_WIDTH = 8;
-	// grid line half width
-	public static final int GRID_WIDHT_HALF = GRID_WIDTH / 2;
-	/* Define named constants for the grid*/
-	public static final int ROWS = 3;
+	// Define named constants
+	   public static final int ROWS = 3;  // ROWS x COLS cells
 	   public static final int COLS = 3;
+	// Define named constants for drawing
+	public static final int GRID_WIDTH = 8;// grid line width
+	public static final int GRID_WIDTH_HALF = GRID_WIDTH / 2;// grid line half width
+	public static final int CANVAS_WIDTH = GameMain.CELL_SIZE * COLS;  // the drawing canvas
+	   public static final int CANVAS_HEIGHT = GameMain.CELL_SIZE * ROWS;
 	
 	//2D array of ROWS-by-COLS Cell instances
 	Cell [][] cells;
@@ -16,18 +17,26 @@ public class Board {
 	public Board() {
 		
 	 //TODO: initialize the cells array using ROWS and COLS constants 
-		 initGame();
+		initGame();
 	}
-		 private void initGame() {
-		for (int row = 0; row < GameMain.ROWS; ++row) {
-			for (int col = 0; col < GameMain.COLS; ++col) {
-				cells[row][col] = new Cell(row, col);
-			}
-		}
 		
-	}
-
-
+	public void initGame() {
+	      cells = new Cell[ROWS][COLS]; // allocate the array
+	      for (int row = 0; row < ROWS; ++row) {
+	         for (int col = 0; col < COLS; ++col) {
+	            // Allocate element of the array
+	            cells[row][col] = new Cell(row, col);
+	               // Cells are initialized in the constructor
+	         }
+	      }
+	   }
+//	public void newGame() {
+//	      for (int row = 0; row < ROWS; ++row) {
+//	         for (int col = 0; col < COLS; ++col) {
+//	            cells[row][col].clear();  // The cells init itself
+//	         }
+//	      }
+//	   }
 	/** Return true if it is a draw (i.e., no more EMPTY cells) */ 
 	public boolean isDraw() {
 		 
@@ -35,18 +44,16 @@ public class Board {
 		// Hint: Use a nested loop (see the constructor for an example). Check whether any of the cells content in the board grid are Player.Empty. If they are, it is not a draw.
 		// Hint: Return false if it is not a draw, return true if there are no empty positions left
 		   
-		
-               if (cells[ROWS][COLS].content == Player.Empty) {
+		for (int row = 0; row < ROWS; ++row) {
+	         for (int col = 0; col < COLS; ++col) {
+               if (cells[row][col].content == Player.Empty) {
                   return false; // still have empty cells
-               }else {
-            
-         
-         return GameState.Draw != null; // no empty cell, it's a draw
-      }
-	}
+               }
+	         }
+		}
+		return true;
 
-		
-	
+	}
 	
 	/** Return true if the current player "thePlayer" has won after making their move  */
 	public boolean hasWon(Player thePlayer, int playerRow, int playerCol) {
@@ -56,7 +63,7 @@ public class Board {
 		
 		 // TODO: Check if the player has 3 in the playerCol.
 		 // Hint: Use the row code above as a starting point, remember that it goes cells[row][column] 
-		if(cells[playerCol][0].content == thePlayer && cells[playerCol][0].content == thePlayer && cells[playerCol][0].content == thePlayer )
+		if(cells[playerCol][0].content == thePlayer && cells[playerCol][1].content == thePlayer && cells[playerCol][2].content == thePlayer )
 			return true; 
 		
 		
@@ -82,12 +89,12 @@ public class Board {
 		//draw the grid
 		g.setColor(Color.gray);
 		for (int row = 1; row < GameMain.ROWS; ++row) {          
-			g.fillRoundRect(0, GameMain.CELL_SIZE * row - GRID_WIDHT_HALF,                
+			g.fillRoundRect(0, GameMain.CELL_SIZE * row - GRID_WIDTH_HALF,                
 					GameMain.CANVAS_WIDTH - 1, GRID_WIDTH,                
 					GRID_WIDTH, GRID_WIDTH);       
 			}
 		for (int col = 1; col < GameMain.COLS; ++col) {          
-			g.fillRoundRect(GameMain.CELL_SIZE * col - GRID_WIDHT_HALF, 0,                
+			g.fillRoundRect(GameMain.CELL_SIZE * col - GRID_WIDTH_HALF, 0,                
 					GRID_WIDTH, GameMain.CANVAS_HEIGHT - 1,                
 					GRID_WIDTH, GRID_WIDTH);
 		}
