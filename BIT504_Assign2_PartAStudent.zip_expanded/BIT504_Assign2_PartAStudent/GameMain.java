@@ -5,8 +5,12 @@ import javax.swing.*;
 
 
 public class GameMain extends JPanel implements MouseListener{
-	private static final long serialVersionUID = 1L; // to prevent serializable warning
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Constants for game 
 	// number of ROWS by COLS cell constants 
 	public static final int ROWS = 3;     
@@ -43,32 +47,7 @@ public class GameMain extends JPanel implements MouseListener{
 		
 		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.          
 	   
-	    super.addMouseListener(new MouseAdapter() {
-	    	
-	    	@Override
-	    	public void mouseClicked(MouseEvent e) {  
-	    	    // get the coordinates of where the click event happened            
-	    		int mouseX = e.getX();             
-	    		int mouseY = e.getY();             
-	    		// Get the row and column clicked             
-	    		int rowSelected = mouseY / CELL_SIZE;             
-	    		int colSelected = mouseX / CELL_SIZE;               			
-	    		if (currentState == GameState.Playing) {                
-	    			if (rowSelected >= 0 && rowSelected < ROWS && colSelected >= 0 && colSelected < COLS && board.cells[rowSelected][colSelected].content == Player.Empty) {
-	    				// move  
-	    				board.cells[rowSelected][colSelected].content = currentPlayer; 
-	    				// update currentState                  
-	    				updateGame(currentPlayer, rowSelected, colSelected); 
-	    				// Switch player
-	    				currentPlayer = (currentPlayer == Player.Cross) ? Player.Nought : Player.Cross;
-	                }
-	             } else {        // game over
-	                initGame();  // restart the game
-	             }
-	             // Refresh the drawing canvas
-	             repaint();  // Callback paintComponent().
-	          }
-	       });
+	  addMouseListener(this);
 	    
 	    
 	   
@@ -90,7 +69,7 @@ public class GameMain extends JPanel implements MouseListener{
 		
 		
 		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-		newGame();
+		board = new Board();
 		
 		//TODO: call the method to initialise the game board
 		initGame();
@@ -104,7 +83,8 @@ public class GameMain extends JPanel implements MouseListener{
 				JFrame frame = new JFrame(TITLE);
 				
 				//TODO: create the new GameMain panel and add it to the frame
-				frame.setContentPane(new GameMain());
+				GameMain newGame = new GameMain();
+				frame.add(newGame);
 				
 				
 				//TODO: set the default close operation of the frame to exit_on_close
@@ -128,9 +108,15 @@ public class GameMain extends JPanel implements MouseListener{
 		if (currentState == GameState.Playing) {          
 			statusBar.setForeground(Color.BLACK);          
 				//TODO: use the status bar to display the message "X"'s Turn
-			statusBar.setText((currentPlayer == Player.Cross)? "X's Turn" : "O's Turn");
+			if(currentPlayer == Player.Cross) {
+				statusBar.setText( "X's Turn");
+				
+			}else {
 				//TODO: use the status bar to display the message "O"'s Turn
-				statusBar.setText((currentPlayer == Player.Nought) ? "O's Turn" : "X's Turn");    
+				statusBar.setText( "O's Turn");
+			}
+			
+  
 			} else if (currentState == GameState.Draw) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("It's a Draw! Click to play again.");       
@@ -146,17 +132,17 @@ public class GameMain extends JPanel implements MouseListener{
 	
 	  /** Initialise the game-board contents and the current status of GameState and Player) */
 		public void initGame() {
-			board = new Board();
-		      currentPlayer = Player.Cross;    // cross plays first
-		      currentState = GameState.Playing;  // ready to play
+			for (int row = 0; row < ROWS; ++row) {          
+				for (int col = 0; col < COLS; ++col) {  
+					// all cells empty
+					board.cells[row][col].content = Player.Empty;
 		  
-		
+				}
+			}
+			currentPlayer = Player.Cross;    // cross plays first
+		      currentState = GameState.Playing;  // ready to play
 		}
 		
-		public void newGame() {
-	      currentPlayer = Player.Cross;   // CROSS plays first
-	      currentState = GameState.Playing; // ready to play
-	   }
 		
 	               // Cells are initialized in the constructor
 	             
@@ -170,7 +156,12 @@ public class GameMain extends JPanel implements MouseListener{
 			if(board.hasWon(thePlayer, row, col)) {
 				
 				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner
-				currentPlayer = (currentPlayer == Player.Cross)? Player.Nought : Player.Cross; 
+				if (thePlayer == Player.Nought) {
+					currentState = GameState.Nought_won;
+				}
+				else {
+					currentState = GameState.Cross_won;
+				}
 				
 			} else 
 				if (board.isDraw ()) {
@@ -213,7 +204,33 @@ public class GameMain extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+	    // get the coordinates of where the click event happened            
+			int mouseX = e.getX();             
+			int mouseY = e.getY();             
+			// Get the row and column clicked             
+			int rowSelected = mouseY / CELL_SIZE;             
+			int colSelected = mouseX / CELL_SIZE;               			
+			if (currentState == GameState.Playing) {                
+				if (rowSelected >= 0 && rowSelected < ROWS && colSelected >= 0 && colSelected < COLS && board.cells[rowSelected][colSelected].content == Player.Empty) {
+					// move  
+					board.cells[rowSelected][colSelected].content = currentPlayer; 
+					// update currentState                  
+					updateGame(currentPlayer, rowSelected, colSelected); 
+					// Switch player
+					if (currentPlayer == Player.Cross) {
+						currentPlayer =  Player.Nought;
+					}
+					else {
+						currentPlayer = Player.Cross;
+					}
+				}             
+			} else {        
+				// game over and restart              
+				initGame();            
+			}   
+			
+			// Redraw the graphics on the UI   
+			repaint();
 		
 	}
 
